@@ -19,13 +19,13 @@ The language is composed of eight commands, each of which is a character:
 
 ## Feature
 
-- [x] Lexer: convert src code into tokens (not required)
+- [x] Lexer: convert src code into tokens (no need)
 - [x] Parser: convert token/character string into an AST
-- [ ] Interpreter: interpret the source code
-- [ ] AST Interpreter: interpret the AST
-- [ ] IRGen: generate IR from the AST
-- [ ] IR Interpreter: interpret the IR
+- [x] AST Interpreter: interpret the AST
+- [x] IRGen: generate IR from the AST (no need)
+- [x] IR Interpreter: interpret the IR (no need)
 
 ## Usage
 
-To test the parser, run the `src_parser.py`
+To use the interpreter, run `python3 bf_interpreter.py`,
+to test it with example sources, run `python3 test.py`.

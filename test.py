@@ -7,7 +7,7 @@ Author:     Lokdora
 
 from pprint import pprint
 
-from bf_compiler import Parser
+from bf_interpreter import Parser, ASTInterpreter
 
 
 def test_parser(filename='examples/add.bf'):
@@ -18,7 +18,22 @@ def test_parser(filename='examples/add.bf'):
     pprint(ast)
 
 
-if __name__ == '__main__':
-    print('*** Test Parser ***')
+def test_ast_interpreter(filename='examples/add.bf'):
+    with open(filename, 'r', encoding='utf-8') as f:
+        src = f.read()
+    parser = Parser(src, debug=True)
+    ast = parser.parse()
+    interpreter = ASTInterpreter(ast, debug=True)
+    interpreter.run()
+
+
+def main():
     filename = input("Enter the filename of brainfuck src code: ")
+    print('*** Test Parser ***')
     test_parser(filename)
+    print('*** Test Interpreter ***')
+    test_ast_interpreter(filename)
+
+
+if __name__ == '__main__':
+    main()

@@ -7,6 +7,7 @@ Author:     Lokdora
 
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass
 from pprint import pprint
 
@@ -104,19 +105,19 @@ class Parser:
         return ASTNode(command)
 
 
-class Interpreter:
+class ASTInterpreter:
     ast: ASTNode
     debug: bool
 
     _p: int  # Pointer
     _m: list[int]  # Memory
 
-    def __init__(self, ast: ASTNode, debug: bool = False):
+    def __init__(self, ast: ASTNode, mem_size=100, debug: bool = False):
         self.ast = ast
         self.debug = debug
 
         self._p = 0
-        self._m = [0] * 30000
+        self._m = [0] * mem_size
 
     def run(self):
         """
@@ -132,6 +133,10 @@ class Interpreter:
         :param node:
         :return:
         """
+        if self.debug:
+            print(f'Running {node.command}')
+            mem_dict = {i: v for i, v in enumerate(self._m) if v}
+            pprint(mem_dict)
         if node.command == '+':
             self._m[self._p] += 1
         elif node.command == '-':
@@ -143,7 +148,7 @@ class Interpreter:
         elif node.command == '.':
             print(chr(self._m[self._p]), end='')
         elif node.command == ',':
-            self._m[self._p] = ord(input())
+            self._m[self._p] = ord(sys.stdin.read(1))
         elif node.command == '[':
             while self._m[self._p]:
                 for child in node.children:
@@ -154,16 +159,13 @@ class Interpreter:
             raise ValueError(f'Unknown command {node.command}')
 
 
-def test_interpreter():
-    with open('examples/add.bf', 'r', encoding='utf-8') as f:
-        src = f.read()
-    parser = Parser(src, debug=True)
+def main():
+    src = input("Enter brainfuck source code below:\n")
+    parser = Parser(src)
     ast = parser.parse()
-    pprint(ast)
-
-    interpreter = Interpreter(ast, debug=True)
+    interpreter = ASTInterpreter(ast)
     interpreter.run()
 
 
 if __name__ == '__main__':
-    test_interpreter()
+    main()
