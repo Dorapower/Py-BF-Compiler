@@ -21,6 +21,7 @@ The language is composed of eight commands, each of which is a character:
 
 - [x] Lexer: convert src code into tokens (not required)
 - [x] Parser: convert token/character string into an AST
+- [ ] Interpreter: interpret the source code
 - [ ] AST Interpreter: interpret the AST
 - [ ] IRGen: generate IR from the AST
 - [ ] IR Interpreter: interpret the IR

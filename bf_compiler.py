@@ -89,7 +89,7 @@ class Parser:
         assert self.src[self._p] == ']'
         self._p += 1
 
-        loop = ASTNode('Loop', content)
+        loop = ASTNode('[', content)
         return loop
 
     def parse_command(self) -> ASTNode:
@@ -104,13 +104,66 @@ class Parser:
         return ASTNode(command)
 
 
-def test_parser():
+class Interpreter:
+    ast: ASTNode
+    debug: bool
+
+    _p: int  # Pointer
+    _m: list[int]  # Memory
+
+    def __init__(self, ast: ASTNode, debug: bool = False):
+        self.ast = ast
+        self.debug = debug
+
+        self._p = 0
+        self._m = [0] * 30000
+
+    def run(self):
+        """
+        Run the program
+        :return:
+        """
+        for node in self.ast.children:
+            self._run(node)
+
+    def _run(self, node: ASTNode):
+        """
+        Run the node
+        :param node:
+        :return:
+        """
+        if node.command == '+':
+            self._m[self._p] += 1
+        elif node.command == '-':
+            self._m[self._p] -= 1
+        elif node.command == '>':
+            self._p += 1
+        elif node.command == '<':
+            self._p -= 1
+        elif node.command == '.':
+            print(chr(self._m[self._p]), end='')
+        elif node.command == ',':
+            self._m[self._p] = ord(input())
+        elif node.command == '[':
+            while self._m[self._p]:
+                for child in node.children:
+                    self._run(child)
+        elif node.command == ']':
+            pass
+        else:
+            raise ValueError(f'Unknown command {node.command}')
+
+
+def test_interpreter():
     with open('examples/add.bf', 'r', encoding='utf-8') as f:
         src = f.read()
     parser = Parser(src, debug=True)
     ast = parser.parse()
     pprint(ast)
 
+    interpreter = Interpreter(ast, debug=True)
+    interpreter.run()
+
 
 if __name__ == '__main__':
-    test_parser()
+    test_interpreter()
