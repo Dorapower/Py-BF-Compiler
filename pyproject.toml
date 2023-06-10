@@ -1,0 +1,28 @@
+[project]
+name = "Py-BF-Runtime"
+version = "0.0.1"
+description = "A Brainfuck runtime implemented with Python."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    {name = "Dorapower", email = "thatisluo@outlook.com"}
+]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: A",
+    "Intended Audience :: Developers",
+    "Topic :: Education",
+    "Topic :: Software Development :: Compilers",
+    "Topic :: Software Development :: Interpreters",
+    "Typing :: Typed",
+]
+dependencies = [
+    "llvmlite>=0.40.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/Dorapower/Py-BF-Runtime"
+Documentation = "https://github.com/Dorapower/Py-BF-Runtime/wiki"
+Repository = "https://github.com/Dorapower/Py-BF-Runtime.git"
