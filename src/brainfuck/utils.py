@@ -10,7 +10,16 @@ def strip_comments(src: str) -> str:
 
 def validate(src: str) -> bool:
     """determine whether the program is valid"""
-    return src.count('[') == src.count(']')
+    depth = 0
+    for ch in src:
+        match ch:
+            case '[':
+                depth += 1
+            case ']':
+                depth -= 1
+        if depth < 0:
+            return False
+    return depth == 0
 
 
 def match_bracket(src: str) -> dict[int, int]:
