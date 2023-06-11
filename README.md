@@ -20,11 +20,11 @@ The language is composed of eight commands, each of which is a character:
 
 ## Feature
 
-- [ ] Pre-processor: remove comment characters
+- [x] Pre-processor: remove comment characters
 - [ ] Parser: convert commands string into an AST
 - [ ] Static compiler: convert AST into LLVM IR
 - [ ] JIT compiler: convert AST into LLVM IR and execute it
-- [ ] Interpreter: directly execute the commands
+- [x] Interpreter: directly execute on the source code
 
 ## Usage
 
