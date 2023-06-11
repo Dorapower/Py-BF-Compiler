@@ -21,7 +21,7 @@ The language is composed of eight commands, each of which is a character:
 ## Feature
 
 - [x] Lexer: remove comment characters
-- [ ] Parser: convert commands string into an AST
+- [x] Parser: convert commands string into an AST
 - [ ] Static compiler: convert AST into LLVM IR
 - [ ] JIT compiler: convert AST into LLVM IR and execute it
 - [x] Interpreter: directly execute on the source code
