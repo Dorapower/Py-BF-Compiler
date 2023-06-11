@@ -21,7 +21,7 @@ class Interpreter:
     _ptr: int  # Current position in the memory
     _stack: list[int]  # Stack for loop positions
 
-    def __init__(self, size: int = 2 ** 10, *, debug: bool = False):
+    def __init__(self, size: int = 2 ** 16, *, debug: bool = False):
         self.debug = debug
 
         self._size = size
