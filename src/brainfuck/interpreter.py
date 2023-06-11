@@ -4,7 +4,7 @@ from typing import TypeAlias
 
 import numpy as np
 
-from preprocessor import process
+from preprocessor import preprocess
 
 
 class Interpreter:
@@ -53,7 +53,7 @@ class Interpreter:
         :param src: source code
         :return: None
         """
-        src = process(src)
+        src = preprocess(src)
         target = self.bracket_match(src)
         idx, length = 0, len(src)
 

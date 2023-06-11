@@ -3,5 +3,5 @@
 import re
 
 
-def process(src: str) -> str:
+def preprocess(src: str) -> str:
     return re.sub(r"[^<>+-,.\[\]]", '', src)
