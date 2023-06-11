@@ -4,6 +4,7 @@ import sys
 import numpy as np
 
 from preprocessor import preprocess
+from utils import match_bracket
 
 
 class Interpreter:
@@ -37,14 +38,6 @@ class Interpreter:
         self._ptr = 0
         self._stack.clear()
 
-    @staticmethod
-    def bracket_match(src: str) -> dict[int, int]:
-        """
-        Check if the source code is valid
-        :param src: source code
-        :return: a dict which maps bracket to its pair
-        """
-        return {}
 
     def execute(self, src: str) -> None:
         """
@@ -53,7 +46,7 @@ class Interpreter:
         :return: None
         """
         src = preprocess(src)
-        target = self.bracket_match(src)
+        target = match_bracket(src)
         idx, length = 0, len(src)
 
         while idx < length:
