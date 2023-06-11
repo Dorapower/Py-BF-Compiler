@@ -1,6 +1,6 @@
 [project]
 name = "Py-BF-Runtime"
-version = "0.0.1"
+version = "0.2.0"
 description = "A Brainfuck runtime implemented with Python."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -8,10 +8,10 @@ authors = [
     {name = "Dorapower", email = "thatisluo@outlook.com"}
 ]
 classifiers = [
-    "Development Status :: 1 - Planning",
+    "Development Status :: 2 - Pre-Alpha",
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
-    "License :: OSI Approved :: A",
+    "License :: OSI Approved :: Apache Software License",
     "Intended Audience :: Developers",
     "Topic :: Education",
     "Topic :: Software Development :: Compilers",
