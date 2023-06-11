@@ -3,8 +3,7 @@ import sys
 
 import numpy as np
 
-from lexer import preprocess
-from utils import match_bracket
+from utils import strip_comments, match_bracket
 
 
 class Interpreter:
@@ -45,7 +44,7 @@ class Interpreter:
         :param src: source code
         :return: None
         """
-        src = preprocess(src)
+        src = strip_comments(src)
         target = match_bracket(src)
         idx, length = 0, len(src)
 
