@@ -1,6 +1,5 @@
 """Interpret the source code directly"""
 import sys
-from typing import TypeAlias
 
 import numpy as np
 
@@ -74,10 +73,10 @@ class Interpreter:
                     self._mem[self._ptr] = ord(sys.stdin.read(1))
                 case '[':
                     if not self._mem[self._ptr]:
-                        idx = target[idx] - 1
+                        idx = target[idx]
                 case ']':
                     if self._mem[self._ptr]:
-                        idx = target[idx] - 1
+                        idx = target[idx]
                 case _:
                     raise RuntimeError(f'Unknown command {cmd}')
             idx += 1
