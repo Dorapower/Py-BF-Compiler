@@ -3,7 +3,7 @@ import sys
 
 import numpy as np
 
-from preprocessor import preprocess
+from lexer import preprocess
 from utils import match_bracket
 
 
