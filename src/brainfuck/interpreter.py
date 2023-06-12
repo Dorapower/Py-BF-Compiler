@@ -37,7 +37,6 @@ class Interpreter:
         self._ptr = 0
         self._stack.clear()
 
-
     def execute(self, src: str) -> None:
         """
         Execute the source code
@@ -95,7 +94,7 @@ def interpret(src: str) -> None:
 
 
 def main():
-    src = input('Press enter to start')
+    src = input('Enter brainfuck source code below:\n')
     interpret(src)
 
 

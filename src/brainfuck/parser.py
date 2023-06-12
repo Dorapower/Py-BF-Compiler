@@ -68,7 +68,7 @@ def parse(src: str) -> ASTNode:
 
 
 def main():
-    src = input('Source code: ')
+    src = input('Enter brainfuck source code below:\n')
     ast = parse(src)
     pprint(ast)
 
