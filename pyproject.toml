@@ -1,6 +1,6 @@
 [project]
 name = "Py-BF-Runtime"
-version = "0.5.1"
+version = "0.6.0"
 description = "A Brainfuck runtime implemented with Python."
 readme = "README.md"
 requires-python = ">=3.11"
