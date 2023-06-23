@@ -2,6 +2,7 @@
 from llvmlite import ir
 
 from src_parser import parse_bf
+from utils import strip_comments
 
 Cell: ir.Type = ir.IntType(8)
 LLVMInt: ir.Type = ir.IntType(32)
@@ -15,7 +16,7 @@ class Compiler:
     context: ir.Context
 
     def __init__(self, src: str):
-        self.src = src
+        self.src = strip_comments(src)
 
         self.module = ir.Module(name="brainfuck")
         self.context = self.module.context
@@ -50,6 +51,7 @@ class Compiler:
         c_free = ir.Function(module, ir.FunctionType(ir.VoidType(), [Cell.as_pointer()]), name='free')
 
         # inc, dec, input, output, mov_left, mov_right
+        # TODO: move the load command into the function call
         llvm_inc = ir.Function(module, VoidFunc, name='inc')
         block = llvm_inc.append_basic_block(name='entry')
         with builder.goto_block(block):
@@ -115,9 +117,10 @@ class Compiler:
         builder.store(array, arr_ptr)
 
         # build irs
-        ast = parse_bf(self.src)
-        for node in ast.children:
-            match node.command:
+        stack = []
+        loop_count = 0
+        for cmd in self.src:
+            match cmd:
                 case '+':
                     builder.call(llvm_inc, [])
                 case '-':
@@ -131,11 +134,20 @@ class Compiler:
                 case '>':
                     builder.call(llvm_mov_right, [])
                 case '[':
-                    pass
+                    body = func.append_basic_block(name=f'body_{loop_count}')
+                    end = func.append_basic_block(name=f'end_{loop_count}')
+                    stack.append((body, end))
+                    cond = builder.icmp_unsigned('!=', builder.load(idx_ptr), Cell(0))
+                    loop_count += 1
+                    builder.cbranch(cond, body, end)
+                    builder.position_at_end(body)
                 case ']':
-                    pass
+                    body, end = stack.pop()
+                    cond = builder.icmp_unsigned('!=', builder.load(idx_ptr), Cell(0))
+                    builder.cbranch(cond, body, end)
+                    builder.position_at_end(end)
                 case _:
-                    pass
+                    raise ValueError(f'unknown command: {cmd}')
         builder.call(c_free, [array])
         builder.ret_void()
 
