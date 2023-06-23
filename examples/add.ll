@@ -71,20 +71,21 @@ declare void @"free"(i8* %".1")
 define void @"inc"()
 {
 entry:
-  %".2" = load i32, i32* @"index"
-  %".3" = load i8*, i8** @"array"
-  %".4" = getelementptr i8, i8* %".3", i32 %".2"
+  %".2" = load i8*, i8** @"array"
+  %".3" = load i32, i32* @"index"
+  %".4" = getelementptr i8, i8* %".2", i32 %".3"
   %".5" = load i8, i8* %".4"
   %".6" = add i8 %".5", 1
   store i8 %".6", i8* %".4"
+  ret void
 }
 
 define void @"dec"()
 {
 entry:
-  %".2" = load i32, i32* @"index"
-  %".3" = load i8*, i8** @"array"
-  %".4" = getelementptr i8, i8* %".3", i32 %".2"
+  %".2" = load i8*, i8** @"array"
+  %".3" = load i32, i32* @"index"
+  %".4" = getelementptr i8, i8* %".2", i32 %".3"
   %".5" = load i8, i8* %".4"
   %".6" = sub i8 %".5", 1
   store i8 %".6", i8* %".4"
@@ -94,21 +95,21 @@ entry:
 define void @"input"()
 {
 entry:
-  %".2" = call i32 @"getchar"()
-  %".3" = trunc i32 %".2" to i8
-  %".4" = load i32, i32* @"index"
-  %".5" = load i8*, i8** @"array"
-  %".6" = getelementptr i8, i8* %".5", i32 %".4"
-  store i8 %".3", i8* %".6"
+  %".2" = load i8*, i8** @"array"
+  %".3" = load i32, i32* @"index"
+  %".4" = getelementptr i8, i8* %".2", i32 %".3"
+  %".5" = call i32 @"getchar"()
+  %".6" = trunc i32 %".5" to i8
+  store i8 %".6", i8* %".4"
   ret void
 }
 
 define void @"output"()
 {
 entry:
-  %".2" = load i32, i32* @"index"
-  %".3" = load i8*, i8** @"array"
-  %".4" = getelementptr i8, i8* %".3", i32 %".2"
+  %".2" = load i8*, i8** @"array"
+  %".3" = load i32, i32* @"index"
+  %".4" = getelementptr i8, i8* %".2", i32 %".3"
   %".5" = load i8, i8* %".4"
   %".6" = zext i8 %".5" to i32
   %".7" = call i32 @"putchar"(i32 %".6")
