@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Literal, TypeAlias
 from pprint import pprint
 
-from lexer import Lexer
+from src_lexer import Lexer
 
 Command: TypeAlias = Literal['>', '<', '+', '-', '.', ',', '[', ']']
 
@@ -35,7 +35,7 @@ class Parser:
 
     def parse_program(self) -> ASTNode:
         """parse until program end"""
-        root = ASTNode(None)
+        root = ASTNode(None, [])
         stack = [root]
         current_node = root
 
@@ -44,7 +44,7 @@ class Parser:
                 case '>' | '<' | '+' | '-' | '.' | ',':
                     current_node.children.append(ASTNode(command))
                 case '[':
-                    new_node = ASTNode(command)
+                    new_node = ASTNode(command, [])
                     current_node.children.append(new_node)
                     stack.append(new_node)
                     current_node = new_node
@@ -67,11 +67,15 @@ def parse(src: str) -> ASTNode:
     return Parser(src).parse()
 
 
-def main():
-    src = input('Enter brainfuck source code below:\n')
+def main(filename: str | None = None):
+    if filename is None:
+        src = input('Enter brainfuck source code below:\n')
+    else:
+        with open(filename, 'r', encoding='utf8') as f:
+            src = f.read()
     ast = parse(src)
     pprint(ast)
 
 
 if __name__ == '__main__':
-    main()
+    main('../../examples/add.bf')

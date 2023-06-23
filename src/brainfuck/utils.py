@@ -2,13 +2,15 @@
 
 import re
 
+from src_parser import ASTNode
+
 
 def strip_comments(src: str) -> str:
     """strip all the comment characters and leave commands"""
-    return re.sub(r"[^<>+-,.\[\]]", '', src)
+    return re.sub(r"[^<>+\-,.\[\]]", '', src)
 
 
-def validate(src: str) -> bool:
+def validate_program(src: str) -> bool:
     """determine whether the program is valid"""
     depth = 0
     for ch in src:
@@ -42,3 +44,18 @@ def match_bracket(src: str) -> dict[int, int]:
                 mapping[left_idx] = idx
                 mapping[idx] = left_idx
     return mapping
+
+
+def validate_function(src: str) -> bool:
+    """check if there's no input command inside a loop"""
+    depth = 0
+    for ch in src:
+        match ch:
+            case '[':
+                depth += 1
+            case ']':
+                depth -= 1
+            case ',':
+                if depth > 0:
+                    return False
+    return True

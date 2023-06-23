@@ -160,7 +160,7 @@ class ASTInterpreter:
 
 
 def main():
-    src = input("Enter brainfuck source code below:\n")
+    src = "<[->+<]>."
     parser = Parser(src)
     ast = parser.parse()
     interpreter = ASTInterpreter(ast)

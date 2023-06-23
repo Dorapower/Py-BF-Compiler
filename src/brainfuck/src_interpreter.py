@@ -93,8 +93,12 @@ def interpret(src: str) -> None:
         interpreter.execute(src)
 
 
-def main():
-    src = input('Enter brainfuck source code below:\n')
+def main(filename: str | None = None):
+    if filename is None:
+        src = input('Enter brainfuck source code below:\n')
+    else:
+        with open(filename, 'r', encoding='utf8') as f:
+            src = f.read()
     interpret(src)
 
 
