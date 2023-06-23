@@ -2,7 +2,6 @@
 from llvmlite import ir
 
 from src_parser import parse
-from utils import strip_comments
 
 Cell: ir.Type = ir.IntType(8)
 LLVMInt: ir.Type = ir.IntType(32)
@@ -34,6 +33,11 @@ class Compiler:
         module = ir.Module(name='brainfuck')
         builder = ir.IRBuilder()
 
+        # main func
+        func = ir.Function(module, VoidFunc, name='main')
+        block = func.append_basic_block(name='entry')
+        builder.position_at_end(block)
+
         # idx, arr
         idx_ptr = ir.GlobalVariable(module, LLVMInt, name='index')
         idx_ptr.initializer = LLVMInt(0)
@@ -43,7 +47,7 @@ class Compiler:
         c_getchar = ir.Function(module, ir.FunctionType(LLVMInt, []), name='getchar')
         c_putchar = ir.Function(module, ir.FunctionType(LLVMInt, [LLVMInt]), name='putchar')
         c_calloc = ir.Function(module, ir.FunctionType(Cell.as_pointer(), [LLVMInt, LLVMInt]), name='calloc')
-        c_free = ir.Function(module, ir.FunctionType(ir.VoidType(), [LLVMInt.as_pointer()]), name='free')
+        c_free = ir.Function(module, ir.FunctionType(ir.VoidType(), [Cell.as_pointer()]), name='free')
 
         # inc, dec, input, output, mov_left, mov_right
         llvm_inc = ir.Function(module, VoidFunc, name='inc')
@@ -51,7 +55,7 @@ class Compiler:
         with builder.goto_block(block):
             idx = builder.load(idx_ptr)
             arr = builder.load(arr_ptr)
-            ptr = builder.gep(arr, idx)
+            ptr = builder.gep(arr, (idx,))
             val = builder.load(ptr)
             val = builder.add(val, Cell(1))
             builder.store(val, ptr)
@@ -61,7 +65,7 @@ class Compiler:
         with builder.goto_block(block):
             idx = builder.load(idx_ptr)
             arr = builder.load(arr_ptr)
-            ptr = builder.gep(arr, idx)
+            ptr = builder.gep(arr, (idx,))
             val = builder.load(ptr)
             val = builder.sub(val, Cell(1))
             builder.store(val, ptr)
@@ -74,17 +78,18 @@ class Compiler:
             val = builder.trunc(val, Cell)
             idx = builder.load(idx_ptr)
             arr = builder.load(arr_ptr)
-            ptr = builder.gep(arr, idx)
+            ptr = builder.gep(arr, (idx,))
             builder.store(val, ptr)
             builder.ret_void()
 
-        llvm_output = ir.Function(module, VoidFunc, name='putchar')
+        llvm_output = ir.Function(module, VoidFunc, name='output')
         block = llvm_output.append_basic_block(name='entry')
         with builder.goto_block(block):
             idx = builder.load(idx_ptr)
             arr = builder.load(arr_ptr)
-            ptr = builder.gep(arr, idx)
+            ptr = builder.gep(arr, (idx,))
             val = builder.load(ptr)
+            val = builder.zext(val, LLVMInt)
             builder.call(c_putchar, [val])
             builder.ret_void()
 
@@ -104,14 +109,9 @@ class Compiler:
             builder.store(idx, idx_ptr)
             builder.ret_void()
 
-        # main func
-        func = ir.Function(module, VoidFunc, name='main')
-        block = func.append_basic_block(name='entry')
-        builder.position_at_end(block)
-
         # init array
         array_size = LLVMInt(2 ** 16)
-        array = builder.call(c_calloc, [array_size, Cell(0)])
+        array = builder.call(c_calloc, [array_size, LLVMInt(1)])
         builder.store(array, arr_ptr)
 
         # build irs
@@ -134,6 +134,9 @@ class Compiler:
                     pass
                 case ']':
                     pass
+                case _:
+                    pass
+        builder.call(c_free, [array])
         builder.ret_void()
 
         return module
