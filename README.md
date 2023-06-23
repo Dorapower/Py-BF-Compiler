@@ -29,4 +29,8 @@ The language is composed of eight commands, each of which is a character:
 
 ## Usage
 
-*TODO*
+1. download the src code
+2. create a virtual environment (or not)
+3. install the package: `pip install .`, dependencies will be installed automatically
+4. test the modules by run them directly, or import them and call main function. 
+Deal with the relative path carefully if you wish to input from files
