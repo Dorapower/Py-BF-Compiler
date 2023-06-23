@@ -59,7 +59,7 @@ end_1:
 }
 
 @"index" = global i32 0
-@"array" = external global i8*
+@"array" = global i8* null
 declare i32 @"getchar"()
 
 declare i32 @"putchar"(i32 %".1")

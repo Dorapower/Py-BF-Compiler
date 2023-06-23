@@ -44,6 +44,7 @@ class Compiler:
         idx_ptr = ir.GlobalVariable(module, LLVMInt, name='index')
         idx_ptr.initializer = LLVMInt(0)
         arr_ptr = ir.GlobalVariable(module, Cell.as_pointer(), name='array')  # init in main
+        arr_ptr.initializer = Cell.as_pointer()(None)
 
         # c func
         c_getchar = ir.Function(module, ir.FunctionType(LLVMInt, []), name='getchar')
