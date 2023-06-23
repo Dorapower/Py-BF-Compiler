@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Literal, TypeAlias
 from pprint import pprint
 
-from src_lexer import Lexer
+from bf_lexer import Lexer
 
 Command: TypeAlias = Literal['>', '<', '+', '-', '.', ',', '[', ']']
 

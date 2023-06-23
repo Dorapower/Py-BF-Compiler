@@ -2,7 +2,7 @@
 
 import re
 
-from src_parser import ASTNode
+from bf_parser import ASTNode
 
 
 def strip_comments(src: str) -> str:
