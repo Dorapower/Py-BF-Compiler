@@ -1,7 +1,6 @@
 """takes source code of brainfuck as input and convert it into LLVM IR"""
 from llvmlite import ir
 
-from bf_parser import parse_bf
 from utils import strip_comments
 
 Cell: ir.Type = ir.IntType(8)
