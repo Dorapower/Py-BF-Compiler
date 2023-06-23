@@ -1,4 +1,6 @@
 """takes source code of brainfuck as input and convert it into LLVM IR"""
+import os.path
+
 from llvmlite import ir
 
 from utils import strip_comments
@@ -148,10 +150,12 @@ def compile_bf(src: str) -> ir.Module:
 def main(filename: str | None = None):
     if filename is None:
         src = input('Enter brainfuck source code below:\n')
+        print(compile_bf(src))
     else:
         with open(filename, 'r', encoding='utf8') as f:
             src = f.read()
-    print(compile_bf(src))
+        with open(os.path.splitext(filename)[0]+'.ll', 'w', encoding='utf8') as f:
+            f.write(str(compile_bf(src)))
 
 
 if __name__ == '__main__':
