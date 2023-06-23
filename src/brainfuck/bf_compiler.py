@@ -125,13 +125,15 @@ class Compiler:
                     body = func.append_basic_block(name=f'body_{loop_count}')
                     end = func.append_basic_block(name=f'end_{loop_count}')
                     stack.append((body, end))
-                    cond = builder.icmp_unsigned('!=', builder.load(idx_ptr), Cell(0))
+                    ptr = builder.gep(builder.load(arr_ptr), (builder.load(idx_ptr),))
+                    cond = builder.icmp_unsigned('!=', builder.load(ptr), Cell(0))
                     loop_count += 1
                     builder.cbranch(cond, body, end)
                     builder.position_at_end(body)
                 case ']':
                     body, end = stack.pop()
-                    cond = builder.icmp_unsigned('!=', builder.load(idx_ptr), Cell(0))
+                    ptr = builder.gep(builder.load(arr_ptr), (builder.load(idx_ptr),))
+                    cond = builder.icmp_unsigned('!=', builder.load(ptr), Cell(0))
                     builder.cbranch(cond, body, end)
                     builder.position_at_end(end)
                 case _:

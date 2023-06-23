@@ -15,17 +15,23 @@ entry:
   call void @"inc"()
   call void @"inc"()
   call void @"inc"()
-  %".12" = load i32, i32* @"index"
-  %".13" = icmp ne i32 %".12", 0
-  br i1 %".13", label %"body_0", label %"end_0"
+  %".12" = load i8*, i8** @"array"
+  %".13" = load i32, i32* @"index"
+  %".14" = getelementptr i8, i8* %".12", i32 %".13"
+  %".15" = load i8, i8* %".14"
+  %".16" = icmp ne i8 %".15", 0
+  br i1 %".16", label %"body_0", label %"end_0"
 body_0:
   call void @"mov_left"()
   call void @"inc"()
   call void @"mov_right"()
   call void @"dec"()
-  %".19" = load i32, i32* @"index"
-  %".20" = icmp ne i32 %".19", 0
-  br i1 %".20", label %"body_0", label %"end_0"
+  %".22" = load i8*, i8** @"array"
+  %".23" = load i32, i32* @"index"
+  %".24" = getelementptr i8, i8* %".22", i32 %".23"
+  %".25" = load i8, i8* %".24"
+  %".26" = icmp ne i8 %".25", 0
+  br i1 %".26", label %"body_0", label %"end_0"
 end_0:
   call void @"inc"()
   call void @"inc"()
@@ -35,9 +41,12 @@ end_0:
   call void @"inc"()
   call void @"inc"()
   call void @"inc"()
-  %".30" = load i32, i32* @"index"
-  %".31" = icmp ne i32 %".30", 0
-  br i1 %".31", label %"body_1", label %"end_1"
+  %".36" = load i8*, i8** @"array"
+  %".37" = load i32, i32* @"index"
+  %".38" = getelementptr i8, i8* %".36", i32 %".37"
+  %".39" = load i8, i8* %".38"
+  %".40" = icmp ne i8 %".39", 0
+  br i1 %".40", label %"body_1", label %"end_1"
 body_1:
   call void @"mov_left"()
   call void @"inc"()
@@ -48,9 +57,12 @@ body_1:
   call void @"inc"()
   call void @"mov_right"()
   call void @"dec"()
-  %".42" = load i32, i32* @"index"
-  %".43" = icmp ne i32 %".42", 0
-  br i1 %".43", label %"body_1", label %"end_1"
+  %".51" = load i8*, i8** @"array"
+  %".52" = load i32, i32* @"index"
+  %".53" = getelementptr i8, i8* %".51", i32 %".52"
+  %".54" = load i8, i8* %".53"
+  %".55" = icmp ne i8 %".54", 0
+  br i1 %".55", label %"body_1", label %"end_1"
 end_1:
   call void @"mov_left"()
   call void @"output"()
