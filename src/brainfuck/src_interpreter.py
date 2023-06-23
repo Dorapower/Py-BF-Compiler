@@ -88,7 +88,7 @@ class Interpreter:
         self.reset()
 
 
-def interpret(src: str) -> None:
+def interpret_bf(src: str) -> None:
     with Interpreter() as interpreter:
         interpreter.execute(src)
 
@@ -99,7 +99,7 @@ def main(filename: str | None = None):
     else:
         with open(filename, 'r', encoding='utf8') as f:
             src = f.read()
-    interpret(src)
+    interpret_bf(src)
 
 
 if __name__ == '__main__':

@@ -62,7 +62,7 @@ class Parser:
         return root
 
 
-def parse(src: str) -> ASTNode:
+def parse_bf(src: str) -> ASTNode:
     """Parse the source code into an AST"""
     return Parser(src).parse()
 
@@ -73,7 +73,7 @@ def main(filename: str | None = None):
     else:
         with open(filename, 'r', encoding='utf8') as f:
             src = f.read()
-    ast = parse(src)
+    ast = parse_bf(src)
     pprint(ast)
 
 

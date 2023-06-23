@@ -1,7 +1,7 @@
 """takes source code of brainfuck as input and convert it into LLVM IR"""
 from llvmlite import ir
 
-from src_parser import parse
+from src_parser import parse_bf
 
 Cell: ir.Type = ir.IntType(8)
 LLVMInt: ir.Type = ir.IntType(32)
@@ -115,7 +115,7 @@ class Compiler:
         builder.store(array, arr_ptr)
 
         # build irs
-        ast = parse(self.src)
+        ast = parse_bf(self.src)
         for node in ast.children:
             match node.command:
                 case '+':
@@ -142,7 +142,7 @@ class Compiler:
         return module
 
 
-def compile(src: str) -> ir.Module:
+def compile_bf(src: str) -> ir.Module:
     """compile the source code into a module and return its code"""
     compiler = Compiler(src)
     return compiler.compile()
@@ -154,7 +154,7 @@ def main(filename: str | None = None):
     else:
         with open(filename, 'r', encoding='utf8') as f:
             src = f.read()
-    print(compile(src))
+    print(compile_bf(src))
 
 
 if __name__ == '__main__':
